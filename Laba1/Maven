@@ -1,0 +1,20 @@
+//У мавена новый проект создать надо будет
+<?xml version="1.0" encoding="UTF-8"?>
+<kekL:project xmlns:kekL="http://maven.apache.org/POM/4.0.0"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <kekL:modelVersion>4.0.0</kekL:modelVersion>
+
+    <kekL:groupId>KekW</kekL:groupId>
+    <kekL:artifactId>KekWait</kekL:artifactId>
+    <kekL:version>1.0-SNAPSHOT</kekL:version>
+
+    <kekL:dependencies>
+        <kekL:dependency>
+            <kekL:groupId>org.jfree</kekL:groupId>
+            <kekL:artifactId>jfreechart</kekL:artifactId>
+            <kekL:version>1.5.0</kekL:version>
+        </kekL:dependency>
+    </kekL:dependencies>
+
+</kekL:project>
