@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <tablica>
-    <author name = "Пушкин А.С.">
-        <book>
+    <author>Пушкин А.С.</author>
             <nob>Руслан и Людмилла</nob>
             <pages>150 страниц</pages>
-        </book>
-        <book>
             <nob>Сказка о рыбаке и рыбке</nob>
             <pages>25 страниц</pages>
-        </book>
-    </author>
-    <author name = "Толстой Л.Н.">
-        <book>
+    <author>Толстой Л.Н.</author>
             <nob>Война и мир</nob>
             <pages>1000 страниц</pages>
-        </book>
-    </author>
 </tablica>
