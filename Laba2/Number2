@@ -1,0 +1,59 @@
+package Laba2;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.chart.JFreeChart;
+
+import javax.swing.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class Number2 {
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Class<?> classxy = Class.forName(XYSeries.class.getName()); //класс XYSeries
+        Constructor<?>[] constructors = classxy.getConstructors();
+
+        Class<?>[] parametertypes = new Class[]{double.class, double.class}; //метод add
+        Method method = classxy.getDeclaredMethod("add", parametertypes);
+        Class<?>[] parametert = new Class[]{XYSeries.class};
+        Method 
+
+        XYSeries seriesSin = (XYSeries) constructors[2].newInstance("sin(a)");
+        for (double i = -2 * Math.PI; i < 2 * Math.PI; i += 0.1) {
+            method.invoke(seriesSin,i,Math.sin(i));
+        }
+        XYSeries seriesa = (XYSeries) constructors[2].newInstance("a^2");
+        for (double i = -2 * Math.PI; i < 2 * Math.PI; i += 0.1) {
+            method.invoke(seriesa,i,Math.pow(i,2));
+        }
+
+        Class<?>classds = Class.forName(XYSeriesCollection.class.getName()); //создание класса XYDataset
+        constructors = classds.getConstructors();
+        XYDataset dataset =  (XYDataset) constructors[1].newInstance(seriesSin);
+        XYDataset dataset2 = (XYDataset) constructors[1].newInstance(seriesa);
+
+        Class<?> classcf = Class.forName(ChartFactory.class.getName()); //класс ChartFactory для метода createXYLineChart
+        Class<?>[] paramsjfc = new Class[]{String.class, String.class,String.class, XYDataset.class, PlotOrientation.class,boolean.class,boolean.class,boolean.class};
+        Method methodjfc = classcf.getDeclaredMethod("createXYLineChart",paramsjfc); // метод createXYLineChart
+        methodjfc.setAccessible(true);
+
+        JFreeChart chart = (JFreeChart) methodjfc.invoke(ChartFactory.class,"y = sin(x) & x^2", "x", "y", dataset, PlotOrientation.VERTICAL, false, true, true);
+        JFreeChart chart2 = (JFreeChart) methodjfc.invoke(ChartFactory.class,"y = x^2", "x", "y", dataset2, PlotOrientation.VERTICAL, false, true, true);
+
+        JFrame frame = new JFrame("SinChart");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        mainPanel.add(new ChartPanel(chart));
+        mainPanel.add(new ChartPanel(chart2));
+        frame.setSize(400, 300);
+        frame.add(mainPanel);
+        frame.setVisible(true);
+
+    }
+}
