@@ -1,0 +1,49 @@
+package Laba2;
+
+import org.jfree.chart.JFreeChart;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
+public class Number1 {
+    public static void main(String[] args) {
+        Class myclass = JFreeChart.class;
+        System.out.println("Имя родительского класса : "
+                + myclass.getSuperclass().getName());
+        System.out.println();
+        Class[] interfaces = myclass.getInterfaces();
+        System.out.println("Список реализуемых интерфейсов : ");
+        for (Class i: interfaces) {
+            System.out.println(i.getName());
+        }
+        System.out.println();
+        Field[] fields = myclass.getDeclaredFields();
+        System.out.println("Список полей и их типы : ");
+        for (Field i : fields) {
+            System.out.println("Имя поля : " + i.getName()
+            + ", тип поля : " + i.getType().getName());
+        }
+        System.out.println();
+        System.out.println("Список только статических полей : ");
+        for (Field i : fields) {
+            if (Modifier.isStatic(i.getModifiers()))
+                System.out.println("Имя поля : " + i.getName()
+                        + ", тип поля : " + i.getType().getName());
+        }
+        System.out.println();
+        Method[] methods = myclass.getMethods();
+        System.out.println("Список всех методов с указанием количетва и типов их араметров");
+        for (Method i : methods) {
+            System.out.println("Имя метода : " + i.getName());
+            Class[] parameters = i.getParameterTypes();
+            System.out.println("Количество параметров : " + parameters.length);
+            if (parameters.length != 0 ) {
+                System.out.println("Типы парметров : ");
+                for (Class j : parameters) {
+                    System.out.println(j.getName());
+                }
+            }
+            System.out.println();
+        }
+    }
+}
