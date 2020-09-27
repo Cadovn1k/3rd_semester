@@ -40,7 +40,7 @@ public class Number2 {
         Method methodjfc = classcf.getDeclaredMethod("createXYLineChart",paramsjfc); // метод createXYLineChart
         methodjfc.setAccessible(true);
 
-        JFreeChart chart = (JFreeChart) methodjfc.invoke(ChartFactory.class,"y = sin(x) & x^2", "x", "y", dataset, PlotOrientation.VERTICAL, false, true, true);
+        JFreeChart chart = (JFreeChart) methodjfc.invoke(ChartFactory.class,"y = sin(x)", "x", "y", dataset, PlotOrientation.VERTICAL, false, true, true);
         JFreeChart chart2 = (JFreeChart) methodjfc.invoke(ChartFactory.class,"y = x^2", "x", "y", dataset2, PlotOrientation.VERTICAL, false, true, true);
 
         JFrame frame = new JFrame("SinChart");
