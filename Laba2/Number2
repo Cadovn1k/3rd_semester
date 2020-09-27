@@ -20,8 +20,6 @@ public class Number2 {
 
         Class<?>[] parametertypes = new Class[]{double.class, double.class}; //метод add
         Method method = classxy.getDeclaredMethod("add", parametertypes);
-        Class<?>[] parametert = new Class[]{XYSeries.class};
-        Method 
 
         XYSeries seriesSin = (XYSeries) constructors[2].newInstance("sin(a)");
         for (double i = -2 * Math.PI; i < 2 * Math.PI; i += 0.1) {
