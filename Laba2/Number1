@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 public class Number1 {
     public static void main(String[] args) {
         Class myclass = JFreeChart.class;
-        System.out.println("Имя родительского класса : "
+        System.out.println("Имя родительского класса (суперкласса) : "
                 + myclass.getSuperclass().getName());
         System.out.println();
         Class[] interfaces = myclass.getInterfaces();
@@ -21,7 +21,7 @@ public class Number1 {
         System.out.println("Список полей и их типы : ");
         for (Field i : fields) {
             System.out.println("Имя поля : " + i.getName()
-            + ", тип поля : " + i.getType().getName());
+                    + ", тип поля : " + i.getType().getName());
         }
         System.out.println();
         System.out.println("Список только статических полей : ");
@@ -32,7 +32,7 @@ public class Number1 {
         }
         System.out.println();
         Method[] methods = myclass.getMethods();
-        System.out.println("Список всех методов с указанием количетва и типов их араметров");
+        System.out.println("Список всех методов с указанием количества и типов их араметров");
         for (Method i : methods) {
             System.out.println("Имя метода : " + i.getName());
             Class[] parameters = i.getParameterTypes();
