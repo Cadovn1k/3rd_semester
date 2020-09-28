@@ -1,0 +1,25 @@
+import org.json.simple.parser.ParseException;
+import org.w3c.dom.NodeList;
+
+import java.io.*;
+import java.util.*;
+public class Number1 {
+    public static void main(String[] args) {
+        try{
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonPers = (JSONObject) jsonParser.parse(new FileReader("Literature.json"));
+            JSONObject jsonAuthors = (JSONObject) jsonPers.get("authors");
+            System.out.println(jsonAuthors.toString());
+            System.out.println(jsonAuthors.get("name"));
+            System.out.println(jsonAuthors.get("books"));
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
