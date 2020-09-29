@@ -1,0 +1,170 @@
+package Laba3;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.w3c.dom.*;
+import java.util.Scanner;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.time.LocalDate;
+
+
+public class Number2 {
+    public static void main(String[] args) {
+        try {
+            DocumentBuilder documentBuilder =
+                    DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document document = documentBuilder.parse("Number2.xml");
+            Node root = document.getDocumentElement();
+            NodeList sportsmans = ((Element) root).getElementsByTagName("sportsman");
+            ForNumber2[] team = new ForNumber2[sportsmans.getLength()];
+            ForNumber2.Event[] event = new ForNumber2.Event[2];  // без частного случая не знаю как
+            team = XmltoClass(root.getChildNodes(), team, 0, event, -1);
+//            for (int i = 0; i < team.length; i++) {  // для проверки
+//                System.out.println(team[i].getName());
+//                System.out.println(team[i].getBirthday());
+//                System.out.println(team[i].getGender());
+//                ForNumber2.Event[] ev = team[i].getEvent();
+//                for (int j = 0; j < ev.length; j++) {
+//                        System.out.println("Город : " + ev[j].getPlace() + ", год : " + ev[j].getYear() +
+//                                " , результат : " + ev[j].getResult() + ", медаль : " + ev[j].getAward());
+//                }
+//                System.out.println();
+//            }
+            System.out.println("Задание 3 а)");
+            for (int i = 0; i < team.length; i++) {
+                if (team[i].getGender().equals("м")) {
+                    System.out.println("Имя " + team[i].getName() + ", дата рождения : " + team[i].getBirthday());
+                }
+            }
+            System.out.println("Задание 3 б)");
+            for (int i = 0; i < team.length; i++) {
+                if (team[i].getGender().equals("ж") && team[i].getBirthday().getYear() < 1985)
+                    System.out.println("Имя : " + team[i].getName() + ", дата рождения " + team[i].getBirthday() + ", количество медалей : " + team[i].getEvent().length);
+            }
+            System.out.println("Задание 3 в)");
+            for (int i = 0; i < team.length; i++) {
+                for (int j = 0; j < team[i].getEvent().length; j++) {
+                    if (team[i].getEvent()[j].getPlace().equalsIgnoreCase("москва") &&
+                            team[i].getEvent()[j].getYear() == 2002)
+                        System.out.println("Имя : " + team[i].getName());
+                }
+            }
+            System.out.println();
+            System.out.println("Задание 4");
+            Scanner inp = new Scanner(System.in);
+            System.out.println("Введите Имя");
+            String name = inp.next();
+            System.out.println("Введите дату рождения ");
+            System.out.println("ВВедите год рождения");
+            int yearborn = inp.nextInt();
+            System.out.println("Введите месяц");
+            int month = inp.nextInt();
+            System.out.println("Введите день");
+            int day = inp.nextInt();
+            System.out.println("Введите пол");
+            String gender = inp.next();
+            System.out.println("Введите место проведения соревнований");
+            String place = inp.next();
+            System.out.println("Введите год ");
+            int year = inp.nextInt();
+            System.out.println("Введите результат ");
+            int result = inp.nextInt();
+            System.out.println("Введите награду ");
+            String award = inp.next();
+            ForNumber2.Event[] lll = new ForNumber2.Event[]{new ForNumber2.Event(place, year, result, award)};
+            LocalDate date = LocalDate.of(yearborn, month, day);
+            team = add(team, name, date, gender.substring(0,1), lll);
+            System.out.println(team[team.length - 1].getName());
+            System.out.println(team[team.length - 1].getBirthday());
+            System.out.println(team[team.length - 1].getGender());
+            ForNumber2.Event[] ev = team[team.length - 1].getEvent();
+            for (int j = 0; j < ev.length; j++) {
+                System.out.println("Город : " + ev[j].getPlace() + ", год : " + ev[j].getYear() +
+                        " , результат : " + ev[j].getResult() + ", медаль : " + ev[j].getAward());
+            }
+//            for (int i = 0; i < team.length; i++) {  // для проверки
+//                System.out.println(team[i].getName());
+//                System.out.println(team[i].getBirthday());
+//                System.out.println(team[i].getGender());
+//                ForNumber2.Event[] ev = team[i].getEvent();
+//                for (int j = 0; j < ev.length; j++) {
+//                    System.out.println("Город : " + ev[j].getPlace() + ", год : " + ev[j].getYear() +
+//                            " , результат : " + ev[j].getResult() + ", медаль : " + ev[j].getAward());
+//                }
+//                System.out.println();
+//            }
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ForNumber2[] XmltoClass(NodeList nodeList, ForNumber2[] team, int k, ForNumber2.Event[] event, int p) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (k != 5 && node.getNodeName().equals("sportsman"))
+                team[k] = new ForNumber2();
+            if (Node.ELEMENT_NODE == node.getNodeType()) {
+                if (node.getNodeName().equals("sportsman")) {
+                    NamedNodeMap attributes = node.getAttributes();
+                    Node attribute = attributes.item(1);
+                    team[k].setName(attribute.getNodeValue());
+                    attribute = attributes.item(0);
+                    String birth = attribute.getNodeValue();
+                    int year = Integer.parseInt(birth.substring(0, 4));
+                    int month = Integer.parseInt(birth.substring(6, 7));
+                    int day = Integer.parseInt(birth.substring(8, 9));
+                    team[k].setBirthday(LocalDate.of(year, month, day));
+                    attribute = attributes.item(2);
+                    team[k].setGender(attribute.getNodeValue());
+                    p = -1;
+                    if (k != 0)
+                        team[k - 1].setEvent(event);
+                    event = new ForNumber2.Event[2];
+                    if (team[k].getName().equals("kolya"))  // небольшая дискриминация коли
+                        event = new ForNumber2.Event[1];
+                    k++;
+                }
+                if (node.getNodeName().equals("event")) {
+                    p++;
+                    event[p] = new ForNumber2.Event();
+                    NamedNodeMap attributes = node.getAttributes();
+                    Node attribute = attributes.item(0);
+                    event[p].setPlace(attribute.getNodeValue());
+                    attribute = attributes.item(1);
+                    event[p].setYear(Integer.parseInt(attribute.getNodeValue()));
+                }
+                if (node.getNodeName().equals("result")) {
+                    event[p].setResult(Integer.parseInt(node.getTextContent()));
+                }
+                if (node.getNodeName().equals("award")) {
+                    event[p].setAward(node.getTextContent());
+                }
+                if (node.hasChildNodes()) {
+                    XmltoClass(node.getChildNodes(), team, k, event, p);
+                }
+                if (k == 5)
+                    team[k - 1].setEvent(event);
+            }
+        }
+        return team;
+    }
+
+    public static ForNumber2[] add(ForNumber2[] array, String name, LocalDate birthday, String gender, ForNumber2.Event[] event) {
+        ForNumber2[] newarray = new ForNumber2[array.length + 1];
+        for (int i = 0; i < array.length; i++) {
+            newarray[i] = array[i];
+        }
+        newarray[newarray.length - 1] = new ForNumber2(name, birthday, gender, event);
+        return newarray;
+    }
+}
