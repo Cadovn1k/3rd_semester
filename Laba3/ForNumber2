@@ -1,0 +1,100 @@
+package Laba3;
+
+import java.time.LocalDate;
+
+public class ForNumber2 {
+    static class Event {
+        private String place;
+        private int year;
+        private int result;
+        private String award;
+
+        public String getPlace() {
+            return place;
+        }
+
+        public void setPlace(String place) {
+            this.place = place;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
+        }
+
+        public int getResult() {
+            return result;
+        }
+
+        public void setResult(int result) {
+            this.result = result;
+        }
+
+        public String getAward() {
+            return award;
+        }
+
+        public void setAward(String award) {
+            this.award = award;
+        }
+
+        public Event(){}
+
+        public Event(String place, int year, int result, String award) {
+            this.place = place;
+            this.year = year;
+            this.result = result;
+            this.award = award;
+        }
+    }
+
+    private String name;
+    private LocalDate birthday;
+    private String gender;
+    private Event[] event;
+
+    public ForNumber2(){}
+
+    public ForNumber2(String name,LocalDate birthday, String gender, Event[] event){
+        this.name = name;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.event = event;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Event[] getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event[] event) {
+        this.event = event;
+    }
+
+}
