@@ -1,0 +1,40 @@
+CREATE TABLE "users" (
+	"id" integer NOT NULL,
+	"name" character varying(255) NOT NULL,
+	"password" character varying(64) NOT NULL,
+	CONSTRAINT "users_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "posts" (
+	"author_id" integer NOT NULL,
+	"content" TEXT NOT NULL,
+	"id" integer NOT NULL,
+	"topic_id" integer NOT NULL,
+	CONSTRAINT "posts_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "topics" (
+	"createdate" timestamp with time zone NOT NULL,
+	"creator_id" integer NOT NULL,
+	"id" integer NOT NULL,
+	"title" character varying(255) NOT NULL,
+	CONSTRAINT "topics_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+
+ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("author_id") REFERENCES "users"("id");
+ALTER TABLE "posts" ADD CONSTRAINT "posts_fk1" FOREIGN KEY ("topic_id") REFERENCES "topics"("id");
+
+ALTER TABLE "topics" ADD CONSTRAINT "topics_fk0" FOREIGN KEY ("creator_id") REFERENCES "users"("id");
