@@ -55,6 +55,7 @@ CREATE TABLE "Phones" (
 CREATE TABLE "Comments" (
 	"id" integer NOT NULL,
 	"comment" character varying(255) NOT NULL,
+	"post_id" integer NOT NULL,
 	CONSTRAINT "Comments_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -118,6 +119,7 @@ ALTER TABLE "Pers. data" ADD CONSTRAINT "Pers. data_fk0" FOREIGN KEY ("adress") 
 ALTER TABLE "Phones" ADD CONSTRAINT "Phones_fk0" FOREIGN KEY ("id") REFERENCES "users"("id");
 
 ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk0" FOREIGN KEY ("id") REFERENCES "users"("id");
+ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk1" FOREIGN KEY ("post_id") REFERENCES "posts"("id");
 
 ALTER TABLE "Citys" ADD CONSTRAINT "Citys_fk0" FOREIGN KEY ("id") REFERENCES "users"("id");
 
