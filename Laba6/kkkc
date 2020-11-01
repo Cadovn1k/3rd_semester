@@ -22,7 +22,7 @@ CREATE TABLE "posts" (
 
 
 CREATE TABLE "topics" (
-	"createdate" timestamp with time zone NOT NULL,
+	"createdate" TIMESTAMP NOT NULL,
 	"creator_id" integer NOT NULL,
 	"id" integer NOT NULL,
 	"title" character varying(255) NOT NULL,
@@ -34,8 +34,10 @@ CREATE TABLE "topics" (
 
 
 CREATE TABLE "Pers. data" (
-	"adress" character varying(255) NOT NULL,
-	"birth" DATE NOT NULL
+	"birth" DATE NOT NULL,
+	"id" integer NOT NULL,
+	"adress" varchar(255) NOT NULL,
+	CONSTRAINT "Pers. data_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
@@ -114,7 +116,7 @@ ALTER TABLE "posts" ADD CONSTRAINT "posts_fk1" FOREIGN KEY ("topic_id") REFERENC
 
 ALTER TABLE "topics" ADD CONSTRAINT "topics_fk0" FOREIGN KEY ("creator_id") REFERENCES "users"("id");
 
-ALTER TABLE "Pers. data" ADD CONSTRAINT "Pers. data_fk0" FOREIGN KEY ("adress") REFERENCES "users"("id");
+ALTER TABLE "Pers. data" ADD CONSTRAINT "Pers. data_fk0" FOREIGN KEY ("id") REFERENCES "users"("id");
 
 ALTER TABLE "Phones" ADD CONSTRAINT "Phones_fk0" FOREIGN KEY ("id") REFERENCES "users"("id");
 
@@ -129,3 +131,4 @@ ALTER TABLE "Topic ban" ADD CONSTRAINT "Topic ban_fk0" FOREIGN KEY ("id") REFERE
 ALTER TABLE "Topic ban" ADD CONSTRAINT "Topic ban_fk1" FOREIGN KEY ("topic_id") REFERENCES "topics"("id");
 
 ALTER TABLE "Full ban" ADD CONSTRAINT "Full ban_fk0" FOREIGN KEY ("id") REFERENCES "users"("id");
+
