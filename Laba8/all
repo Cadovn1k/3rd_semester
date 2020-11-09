@@ -1,0 +1,22 @@
+-- create table Cities(
+-- id serial primary key,
+-- name  CHARACTER VARYING(30)
+-- population integer);
+-- select * from Cities
+-- select population from cities 
+-- order by population desc limit 5
+-- select 	name from cities 
+-- order by name 
+-- select sum(population) from cities
+-- insert into cities (name, population)
+-- values ('Лондон', 4656948),
+-- ('Париж', 4655147),
+-- ('Оттава', 3214578),
+-- ('Берлин', 4147852),
+-- ('Нью-Йорк', 3567874);
+-- select count(name) from cities
+-- where population > 4000000
+-- select name from cities 
+-- where name like 'М%'
+-- select name from cities 
+-- where name like '% %'
