@@ -6,8 +6,8 @@ CREATE TABLE "Users" (
 	"phones" integer NOT NULL,
 	"admin" integer NOT NULL,
 	"full ban" integer NOT NULL,
-	"topics" integer NOT NULL,
 	"citys" integer NOT NULL,
+	"topic ban" bigint NOT NULL,
 	CONSTRAINT "Users_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -15,11 +15,12 @@ CREATE TABLE "Users" (
 
 
 
-CREATE TABLE "posts" (
+CREATE TABLE "Posts" (
 	"content" TEXT NOT NULL,
 	"post_id" integer NOT NULL,
-	"post_comments" integer NOT NULL,
-	CONSTRAINT "posts_pk" PRIMARY KEY ("post_id")
+	"topic_id" integer NOT NULL,
+	"author_id" integer NOT NULL,
+	CONSTRAINT "Posts_pk" PRIMARY KEY ("post_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -28,10 +29,9 @@ CREATE TABLE "posts" (
 
 CREATE TABLE "Topic" (
 	"createdate" TIMESTAMP NOT NULL,
-	"topic_id" integer NOT NULL,
+	"creater_id" integer NOT NULL,
 	"title" character varying(255) NOT NULL,
-	"posts" bigint NOT NULL,
-	"topic bans" bigint NOT NULL,
+	"topic_id" integer NOT NULL,
 	CONSTRAINT "Topic_pk" PRIMARY KEY ("topic_id")
 ) WITH (
   OIDS=FALSE
@@ -42,7 +42,8 @@ CREATE TABLE "Topic" (
 CREATE TABLE "Pers. data" (
 	"adress" character varying(255) NOT NULL,
 	"birth" DATE NOT NULL,
-	"pers.data_id" integer NOT NULL
+	"pers.data_id" integer NOT NULL,
+	CONSTRAINT "Pers. data_pk" PRIMARY KEY ("pers.data_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -62,6 +63,8 @@ CREATE TABLE "Phones" (
 CREATE TABLE "Comments" (
 	"comment_id" integer NOT NULL,
 	"comment" character varying(255) NOT NULL,
+	"from_user" integer NOT NULL,
+	"post_id" bigint NOT NULL,
 	CONSTRAINT "Comments_pk" PRIMARY KEY ("comment_id")
 ) WITH (
   OIDS=FALSE
@@ -94,7 +97,9 @@ CREATE TABLE "Admin" (
 CREATE TABLE "Topic ban" (
 	"topic_id" integer NOT NULL,
 	"begin" DATE NOT NULL,
-	"end" DATE NOT NULL
+	"end" DATE NOT NULL,
+	"tb_id" integer NOT NULL,
+	CONSTRAINT "Topic ban_pk" PRIMARY KEY ("tb_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -113,21 +118,23 @@ CREATE TABLE "Full ban" (
 
 
 
-ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("post_id") REFERENCES "Topic"("posts");
+ALTER TABLE "Posts" ADD CONSTRAINT "Posts_fk0" FOREIGN KEY ("topic_id") REFERENCES "Topic"("topic_id");
+ALTER TABLE "Posts" ADD CONSTRAINT "Posts_fk1" FOREIGN KEY ("author_id") REFERENCES "Users"("id");
 
-ALTER TABLE "Topic" ADD CONSTRAINT "Topic_fk0" FOREIGN KEY ("topic_id") REFERENCES "Users"("topics");
+ALTER TABLE "Topic" ADD CONSTRAINT "Topic_fk0" FOREIGN KEY ("creater_id") REFERENCES "Users"("id");
 
 ALTER TABLE "Pers. data" ADD CONSTRAINT "Pers. data_fk0" FOREIGN KEY ("pers.data_id") REFERENCES "Users"("pers.data");
 
 ALTER TABLE "Phones" ADD CONSTRAINT "Phones_fk0" FOREIGN KEY ("phones_id") REFERENCES "Users"("phones");
 
-ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk0" FOREIGN KEY ("comment_id") REFERENCES "posts"("post_comments");
+ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk0" FOREIGN KEY ("from_user") REFERENCES "Users"("id");
+ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk1" FOREIGN KEY ("post_id") REFERENCES "Posts"("post_id");
 
 ALTER TABLE "Citys" ADD CONSTRAINT "Citys_fk0" FOREIGN KEY ("citys_id") REFERENCES "Users"("citys");
 
 ALTER TABLE "Admin" ADD CONSTRAINT "Admin_fk0" FOREIGN KEY ("admin_id") REFERENCES "Users"("admin");
 
-ALTER TABLE "Topic ban" ADD CONSTRAINT "Topic ban_fk0" FOREIGN KEY ("topic_id") REFERENCES "Topic"("topic bans");
+ALTER TABLE "Topic ban" ADD CONSTRAINT "Topic ban_fk0" FOREIGN KEY ("topic_id") REFERENCES "Topic"("topic_id");
+ALTER TABLE "Topic ban" ADD CONSTRAINT "Topic ban_fk1" FOREIGN KEY ("tb_id") REFERENCES "Users"("topic ban");
 
 ALTER TABLE "Full ban" ADD CONSTRAINT "Full ban_fk0" FOREIGN KEY ("ban_id") REFERENCES "Users"("full ban");
-
