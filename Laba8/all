@@ -1,22 +1,312 @@
--- create table Cities(
--- id serial primary key,
--- name  CHARACTER VARYING(30)
--- population integer);
--- select * from Cities
--- select population from cities 
--- order by population desc limit 5
--- select 	name from cities 
--- order by name 
--- select sum(population) from cities
--- insert into cities (name, population)
--- values ('Лондон', 4656948),
--- ('Париж', 4655147),
--- ('Оттава', 3214578),
--- ('Берлин', 4147852),
--- ('Нью-Йорк', 3567874);
--- select count(name) from cities
--- where population > 4000000
--- select name from cities 
--- where name like 'М%'
--- select name from cities 
--- where name like '% %'
+package Laba8;
+
+import java.sql.*;
+
+public class Number2 {
+    public static void main(String[] args) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Laba8", "postgres", "ka1eka")) {
+                System.out.println("Bсе данные");
+                PreparedStatement prsment = conn.prepareStatement("select * from cities");
+                ResultSet res = prsment.executeQuery();
+                while (res.next()) {
+                    int id = res.getInt("id");
+                    String name = res.getString("name");
+                    int population = res.getInt(3);
+                    System.out.println(id + " " + name + " " + population);
+                }
+
+                System.out.println("5 городов с наибольшей численностью населения");
+                prsment = conn.prepareStatement("select name from cities order by population desc limit 5");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    String name = res.getString("name");
+                    System.out.println(name);
+                }
+
+                System.out.println("Bсе названия городовв алфавитном порядке");
+                prsment = conn.prepareStatement("select name from cities order by name");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    String name = res.getString("name");
+                    System.out.println(name);
+                }
+
+                System.out.println("Общая суммарная численность населения");
+                prsment = conn.prepareStatement("select population from cities");
+                res = prsment.executeQuery();
+                int sum = 0;
+                while (res.next()) {
+                    sum += res.getInt("population");
+                }
+                System.out.println(sum);
+
+                prsment = conn.prepareStatement("insert into cities (name, population) VALUES (?, ?);");
+                prsment.setString(1, "Лондон");
+                prsment.setInt(2, 4656948);
+                prsment.executeUpdate();
+                prsment.setString(1,"Париж");
+                prsment.setInt(2,4655147);
+                prsment.executeUpdate();
+                prsment.setString(1,"Оттава");
+                prsment.setInt(2,3214578);
+                prsment.executeUpdate();
+                prsment.setString(1,"Берлин");
+                prsment.setInt(2,4147852);
+                prsment.executeUpdate();
+                prsment.setString(1,"Нью-Йорк");
+                prsment.setInt(2,3567874);
+                int result = prsment.executeUpdate();
+
+                System.out.println("Kоличество городов с населением более 4 млн. человек");
+                prsment = conn.prepareStatement("select name from cities where population > 4000000");
+                res = prsment.executeQuery();
+                int count = 0;
+                while (res.next()) {
+                    count += 1;
+                }
+                System.out.println(count);
+
+                System.out.println("Все города на букву ‘М’");
+                prsment = conn.prepareStatement("select name from cities where name like 'М%'");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    String name = res.getString("name");
+                    System.out.println(name);
+                }
+
+                System.out.println("Названия городов, состоящие из двух слов");
+                prsment = conn.prepareStatement("select name from cities where name like '% %'");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    String name = res.getString("name");
+                    System.out.println(name);
+                }
+
+                makeSqlc("CREATE TABLE \"Person\" (\n" +
+                                "\t\"id\" serial NOT NULL,\n" +
+                                "\t\"name\" varchar(255) NOT NULL,\n" +
+                                "\t\"login\" varchar(255) NOT NULL,\n" +
+                                "\t\"password\" varchar(255) NOT NULL,\n" +
+                                "\t\"birthday\" DATE NOT NULL,\n" +
+                                "\t\"city\" varchar(255) NOT NULL,\n" +
+                                "\t\"adress\" varchar(255) NOT NULL,\n" +
+                                "\t\"email\" varchar(255) NOT NULL,\n" +
+                                "\tCONSTRAINT \"Person_pk\" PRIMARY KEY (\"id\")\n" +
+                                ") WITH (\n" +
+                                "  OIDS=FALSE\n" +
+                                ");\n" +
+                                "\n" +
+                                "\n" +
+                                "\n" +
+                                "CREATE TABLE \"phones\" (\n" +
+                                "\t\"phone_id\" serial NOT NULL,\n" +
+                                "\t\"phone\" varchar(11) NOT NULL,\n" +
+                                "\t\"person_id\" integer NOT NULL,\n" +
+                                "\tCONSTRAINT \"phones_pk\" PRIMARY KEY (\"phone_id\")\n" +
+                                ") WITH (\n" +
+                                "  OIDS=FALSE\n" +
+                                ");\n" +
+                                "\n" +
+                                "\n" +
+                                "\n" +
+                                "\n" +
+                                "ALTER TABLE \"phones\" ADD CONSTRAINT \"phones_fk0\" FOREIGN KEY (\"person_id\") REFERENCES \"Person\"(\"id\");\n"
+                        );
+
+                prsment = conn.prepareStatement("insert into \"Person\" (name, login, password, birthday, city, adress, email) VALUES (?, ?, ?, ?, ?, ?, ?);");
+                prsment.setString(1, "Слава");
+                prsment.setString(2, "yourboss");
+                prsment.setString(3,"1000000");
+                prsment.setDate(4, Date.valueOf("1987-07-12"));
+                prsment.setString(5,"Москва");
+                prsment.setString(6,"Музейная, 54");
+                prsment.setString(7,"ggg@gmail.com");
+                prsment.executeUpdate();
+                prsment.setString(1, "Вася");
+                prsment.setString(2, "ccccccc");
+                prsment.setString(3,"admin");
+                prsment.setDate(4, Date.valueOf("1990-06-14"));
+                prsment.setString(5,"Москва");
+                prsment.setString(6,"Агатова, 7-99");
+                prsment.setString(7,"aaa@mail.ru");
+                prsment.executeUpdate();
+                prsment.setString(1, "Николай");
+                prsment.setString(2, "cheburashka");
+                prsment.setString(3,"gena");
+                prsment.setDate(4, Date.valueOf("2000-10-23"));
+                prsment.setString(5,"Казань");
+                prsment.setString(6,"Шурихина, 95");
+                prsment.setString(7,"cheb@gmail.com");
+                prsment.executeUpdate();
+                prsment.setString(1, "Дима");
+                prsment.setString(2, "igogo");
+                prsment.setString(3,"ogogi");
+                prsment.setDate(4, Date.valueOf("1978-11-09"));
+                prsment.setString(5,"Ижевск");
+                prsment.setString(6,"Волкова, 10");
+                prsment.setString(7,"gogogo@gmail.com");
+                prsment.executeUpdate();
+                prsment.setString(1, "Диляра");
+                prsment.setString(2, "bibigon");
+                prsment.setString(3,"chu777777");
+                prsment.setDate(4, Date.valueOf("2001-12-30"));
+                prsment.setString(5,"Казань");
+                prsment.setString(6,"Победы, 61");
+                prsment.setString(7,"bibi@inbox.ru");
+                prsment.executeUpdate();
+
+                prsment = conn.prepareStatement("insert into phones (phone, person_id) VALUES (?, ?);");
+                prsment.setString(1,"89567111111");
+                prsment.setInt(2,1);
+                prsment.executeUpdate();
+                prsment.setString(1,"89111777777");
+                prsment.setInt(2,1);
+                prsment.executeUpdate();
+                prsment.setString(1,"89567101010");
+                prsment.setInt(2,2);
+                prsment.executeUpdate();
+                prsment.setString(1,"89567222222");
+                prsment.setInt(2,3);
+                prsment.executeUpdate();
+                prsment.setString(1,"89222333333");
+                prsment.setInt(2,3);
+                prsment.executeUpdate();
+                prsment.setString(1,"81111222222");
+                prsment.setInt(2,4);
+                prsment.executeUpdate();
+                prsment.executeUpdate();
+                prsment.setString(1,"89567777777");
+                prsment.setInt(2,5);
+                prsment.executeUpdate();
+                prsment.setString(1,"89777111111");
+                prsment.setInt(2,5);
+                prsment.executeUpdate();
+                prsment.setString(1,"89777222222");
+                prsment.setInt(2,5);
+                prsment.executeUpdate();
+
+                System.out.println("Все данные пользователей");
+                prsment = conn.prepareStatement("Select * from \"Person\"\n" +
+                        "join phones on \"Person\".id = phones.person_id");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    int id = res.getInt("id");
+                    String name = res.getString("name");
+                    String login = res.getString("login");
+                    String password = res.getString("password");
+                    Date date = res.getDate("birthday");
+                    String city = res.getString("city");
+                    String adress = res.getString("adress");
+                    String email = res.getString("email");
+                    String phones = res.getString("phone");
+                    System.out.println(id + " " + name + " " + login + " " + password + " " +
+                            date + " " + city + " " + adress + " " + email + " " + phones);
+                }
+
+                System.out.println("Имена и адреса всех пользователей из Казани");
+                prsment = conn.prepareStatement("select name,adress from \"Person\" where city = 'Казань'");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    String name = res.getString("name");
+                    String adress = res.getString("adress");
+                    System.out.println(name + " " + adress);
+                }
+
+                System.out.println("Имя и возраст каждого пользователя");
+                prsment = conn.prepareStatement("select name,birthday from \"Person\"");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    String name = res.getString("name");
+                    long years = new Date(0).getTime() - res.getDate("birthday").getTime();
+                    System.out.println(name + " " + new Date(years).getYear());
+                }
+
+//                System.out.println("Имя и количество телефонов каждого пользователя");
+//                prsment = conn.prepareStatement("Select name,phones.phone from \"Person\" join phones on \"Person\".id = phones.person_id");
+//                res = prsment.executeQuery();
+//                while (res.next()){
+//                    int cc = res.getString("phone").;
+//                    String name = res.getString("name");
+//                    System.out.println(name + " " + cc);
+//                }
+
+                System.out.println("Kоличество пользователей с электронной почтой от google(на gmail.com)");
+                prsment = conn.prepareStatement("select name from \"Person\" where email like '%gmail.com'");
+                res = prsment.executeQuery();
+                int nn = 0;
+                while (res.next()) {
+                    nn++;
+                }
+                System.out.println(nn);
+
+//                prsment = conn.prepareStatement("select name from \"Person\"");
+//                res = prsment.executeQuery();
+//                while(res.next()){
+//                    prsment = conn.prepareStatement("update \"Person\" set name = '\t\"res.getString(\"name\")\ + \"_mmm\"' where city ='Москва'");
+//                    prsment.execute();
+//                }
+
+//                prsment = conn.prepareStatement("delete from \"Person\" where city = 'Ижевск'");
+//                prsment.execute();
+
+                prsment = conn.prepareStatement("insert into \"Person\" (name, login, password, birthday, city, adress, email) VALUES (?, ?, ?, ?, ?, ?, ?);");
+                prsment.setString(1, "Наташа");
+                prsment.setString(2, "iminmax");
+                prsment.setString(3, "a0000001");
+                prsment.setDate(4, Date.valueOf("1985-02-04"));
+                prsment.setString(5, "Бобруйск");
+                prsment.setString(6, "Кушкова, 37");
+                prsment.setString(7, "mmm@gmail.com");
+                prsment.executeUpdate();
+                prsment = conn.prepareStatement("insert into phones (phone, person_id) VALUES (?, ?);");
+                prsment.setString(1, "89567333333");
+                prsment.setInt(2, 6);
+                prsment.executeUpdate();
+
+                System.out.println("Конечный результат");
+                prsment = conn.prepareStatement("Select * from \"Person\"\n" +
+                        "join phones on \"Person\".id = phones.person_id");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    int id = res.getInt("id");
+                    String name = res.getString("name");
+                    String login = res.getString("login");
+                    String password = res.getString("password");
+                    Date date = res.getDate("birthday");
+                    String city = res.getString("city");
+                    String adress = res.getString("adress");
+                    String email = res.getString("email");
+                    String phones = res.getString("phone");
+                    System.out.println(id + " " + name + " " + login + " " + password + " " +
+                            date + " " + city + " " + adress + " " + email + " " + phones);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+
+    public static void makeSqlc(String str) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Laba8", "postgres", "ka1eka")) {
+                PreparedStatement prsment = conn.prepareStatement(str);
+                prsment.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+}
+
+
