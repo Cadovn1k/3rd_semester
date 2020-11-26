@@ -56,7 +56,7 @@ public class Number1 extends Application {
         ok.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (lp.containsKey(login) && lp.containsKey(password))
-                    new Alert(Alert.AlertType.INFORMATION, "Приветствуем вас, " + login, ButtonType.CLOSE);
+                    new Alert(Alert.AlertType.INFORMATION, "Приветствуем вас, " + login, ButtonType.CLOSE).showAndWait();
                 else new Alert(Alert.AlertType.ERROR, "Пользователь не найден или неверный пароль", ButtonType.OK).showAndWait();
             }
         });
