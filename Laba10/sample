@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <children>
+        <GridPane prefHeight="408.0" prefWidth="470.0" GridPane.rowIndex="1">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="loginLbl" contentDisplay="TOP" prefHeight="20.0" prefWidth="33.0" text="login" GridPane.columnIndex="1" />
+                <TextField fx:id="loginTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label text="password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <PasswordField fx:id="passwordTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label text="Имя" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <TextField fx:id="nameTF" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label text="Дата рождения" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <Label text="Пол" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <Label text="Город" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                <Label text="Адрес" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                <TextField fx:id="adressTF" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                <Label text="Телефон" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                <TextField fx:id="phoneTF" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                <DatePicker fx:id="dateDP" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <ComboBox fx:id="cityCB" prefWidth="150.0" promptText="Выбрать город" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                <ImageView fx:id="imageIV" fitHeight="162.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@l5ofQ-2Epgg.jpg" />
+               </image></ImageView>
+                <Hyperlink fx:id="changeHL" text="Изменить" GridPane.rowIndex="7" />
+                <CheckBox fx:id="flyCB" mnemonicParsing="false" text="умею летать" GridPane.rowIndex="8" />
+                <Button fx:id="saveB" mnemonicParsing="false" text="Сохранить" GridPane.rowIndex="9" />
+                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                    <children>
+                        <RadioButton fx:id="maleRB" mnemonicParsing="false" text="мужской" />
+                        <RadioButton fx:id="femaleRB" mnemonicParsing="false" text="женский" />
+                    </children></HBox>
+            <TextArea fx:id="resTxtArea" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="13" />
+            </children>
+        </GridPane>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+</GridPane>
