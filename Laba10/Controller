@@ -1,0 +1,83 @@
+package sample;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
+    public TextField loginTF;
+    public PasswordField passwordTF;
+    public TextField nameTF;
+    public TextField adressTF;
+    public TextField phoneTF;
+    public DatePicker dateDP;
+    public ComboBox cityCB;
+    public ImageView imageIV;
+    public Hyperlink changeHL;
+    public CheckBox flyCB;
+    public Button saveB;
+    public RadioButton maleRB;
+    public RadioButton femaleRB;
+    public Label loginLbl;
+    public TextArea resTxtArea;
+
+    ObservableList<String> box = null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        box = fillBox();
+        cityCB.setItems(fillBox());
+
+        saveB.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String g = "";
+                if (maleRB.hasProperties())
+                    g = "мужской";
+                else g = "женский";
+                String yn = "";
+                if (flyCB.isSelected())
+                    yn = "да";
+                else yn = "нет";
+                resTxtArea.textProperty().set("Логин : " + loginTF.textProperty().getValue() +
+                        ", пароль : " + passwordTF.textProperty().getValue() +
+                        ", имя : " + nameTF.textProperty().getValue() +
+                        ", дата рождения : " + dateDP.getValue() +
+                        ", пол : " + g +
+                        ", город : " + cityCB.getValue() +
+                        ", адрес : " + adressTF.textProperty().getValue() +
+                        ", телефон : " + phoneTF.textProperty().getValue() +
+                        ", умеет летать : ");
+            }
+        });
+
+        changeHL.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                FileDialog dialog = new FileDialog((Frame)null, "Выберите файл");
+                dialog.setMode(FileDialog.LOAD);
+                dialog.setVisible(true);
+                String file = dialog.getFile();
+                imageIV.setImage(new Image(getClass().getResourceAsStream(file)));
+            }
+        });
+
+    }
+
+    private ObservableList fillBox() {
+        return FXCollections.observableArrayList("Москва", "Санкт-Петербург", "Казань", "Екатеринбург", "Уфа", "Ульяновск", "Калининград", "Сочи", "Нижний Новгородо", "Новосибирск", "Омск", "Владивосток");
+    }
+
+}
