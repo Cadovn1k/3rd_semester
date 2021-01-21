@@ -120,3 +120,23 @@ public class Exam {
         }
     }
 }
+//    CREATE TABLE market (id SERIAL NOT NULL PRIMARY KEY,
+//                         name CHARACTER VARYING(30),
+//    addres integer);
+//        CREATE TABLE employees (id SERIAL NOT NULL PRIMARY KEY,
+//        firstname CHARACTER VARYING(30),
+//        lastname CHARACTER VARYING(30),
+//        age integer,
+//        position CHARACTER VARYING(30),
+//        marketid integer,
+//        FOREIGN KEY (marketid) REFERENCES market (id))
+//INSERT INTO market (name, addres)
+//    VALUES
+//            ('DNS', 49),
+//('МВидео',75),
+//        ('Технопарк',8);
+//        INSERT INTO employees (firstname,lastname,age,position)
+//        VALUES
+//        ('Иван','Иванов', 25,'консультант'),
+//        ('Александр','Кукушкин', 19,'менеджер'),
+//        ('Василий','Пупкин', 30,'заведующий');
