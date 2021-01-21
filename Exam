@@ -140,3 +140,9 @@ public class Exam {
 //        ('Иван','Иванов', 25,'консультант'),
 //        ('Александр','Кукушкин', 19,'менеджер'),
 //        ('Василий','Пупкин', 30,'заведующий');
+// for pom 
+//        <dependency>
+//            <groupId>org.postgresql</groupId>
+//            <artifactId>postgresql</artifactId>
+//            <version>42.2.16</version>
+//        </dependency>
