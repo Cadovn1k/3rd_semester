@@ -1,0 +1,34 @@
+CREATE TABLE employees (employeeid SERIAL PRIMARY KEY,
+clubid integer,
+firstname character varying(30),
+lastname character varying(30),
+age integer,
+position character varying(30),
+);
+CREATE TABLE sport (sportid serial primary key,
+empid integer,
+sportname character varying(30),
+foreignkey (empid) references (employeeid)
+)
+CREATE TABLE kids (kidid serial primary key,
+trainerid integer,
+firstname character varying(30),
+lastname character varying(30),
+foreignkey (trainerid) references employees (employeeid)
+);
+
+insert into employees (clubid, firstname, lastname, age, position)
+values 
+(1, 'Иван', 'Иванов', 25, 'тренер'),
+(1, 'Александра', 'Кукушкина', 30, 'медсестра'),
+(1, 'Василий', 'Колотушкин', 41, 'заведующий'),
+(1, 'Николай', 'Васильев', 31, 'тренер');
+insert into kids (trainerid, firstname, secondname)
+values
+(1, 'Константин', 'Цицкин'),
+(1, 'Григоий', 'Медведев'),
+(1, 'Анантолий', 'Кудрявцев');
+insert into sport (empid, sportname)
+values 
+(1, 'баскетбол'),
+(4, 'гандбол');
