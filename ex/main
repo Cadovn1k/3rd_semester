@@ -1,0 +1,196 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class all {
+    static Scanner inp;
+
+    public static void main(String[] args) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Exam", "postgres", "root")) {
+                // 4.1
+                System.out.println("Данные из первой таблицы");
+                PreparedStatement prsment = conn.prepareStatement("select * from emplopyees");
+                ResultSet res = prsment.executeQuery();
+                while (res.next()) {
+                    int id = res.getInt(1);
+                    int clubdid = res.getInt(2);
+                    String fname = res.getString(3);
+                    String lname = res.getString(4);
+                    int age = res.getInt(5);
+                    String position = res.getString(6);
+                    System.out.println(id + " " + clubdid + " " + fname + " " + lname + " " + age + " " + position);
+                }
+
+                System.out.println("Данные из второй таблицы");
+                prsment = conn.prepareStatement("select * from kids");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    int id = res.getInt(1);
+                    int trainerid = res.getInt(2);
+                    String fname = res.getString(3);
+                    String lname = res.getString(4);
+                    System.out.println(id + " " + trainerid + " " + fname + " " + lname);
+                }
+
+                System.out.println("Данные из третьей таблицы");
+                prsment = conn.prepareStatement("select * from sport");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    int id = res.getInt(1);
+                    int empid = res.getInt(2);
+                    String sportname = res.getString(3);
+                    System.out.println(id + " " + empid + " " + sportname);
+                }
+
+                System.out.println();
+                // 4.2
+                prsment = conn.prepareStatement("insert into employees (clubid, firstname, lastname, age, position) VALUES (?, ?, ?, ?, ?);");
+                prsment.setInt(1, 1);
+                prsment.setString(2, "Евгений");
+                prsment.setString(3, "Золотарев");
+                prsment.setInt(4, 45);
+                prsment.setString(5, "Директор");
+                prsment.executeUpdate();
+
+                prsment = conn.prepareStatement("insert into kids (trainerid, firstname, lastname) VALUES (?, ?, ?);");
+                prsment.setInt(1, 1);
+                prsment.setString(2, "Михаил");
+                prsment.setString(3, "Нурмаев");
+                prsment.executeUpdate();
+
+                prsment = conn.prepareStatement("insert into sport (empid, sportname) VALUES (?, ?);");
+                prsment.setInt(1, 1);
+                prsment.setString(2, "волейбол");
+                prsment.executeUpdate();
+
+                System.out.println();
+
+//                // 4.3
+                Statement statement = conn.createStatement();
+                inp = new Scanner(System.in);
+                System.out.println("Введите название таблицы");
+                String table = inp.next();
+                if (table.equals("employee")) {
+                    System.out.println("Введите id раобтника");
+                    int id = inp.nextInt();
+                    System.out.println("Введите id клуба");
+                    int clubid = inp.nextInt();
+                    System.out.println("Введите имя");
+                    String empfname = inp.next();
+                    System.out.println("Введите фамилию");
+                    String emplname = inp.next();
+                    System.out.println("Введите возраст");
+                    int emplage = inp.nextInt();
+                    System.out.println("Введите должность");
+                    String emplpos = inp.next();
+
+                    String sql = String.format("UPDATE %s\n" +
+                            "SET clubid = '%d', firstname = '%s', lastname = '%s', age = '%d', position = '%s' WHERE id = %d;", table, clubid, empfname, emplname, emplage, emplpos, id);
+                    statement.executeUpdate(sql);
+
+                }
+                if (table.equals("kids")) {
+                    System.out.println("Введите id ребенка");
+                    int id = inp.nextInt();
+                    System.out.println("Введите id тренера");
+                    int trainerid = inp.nextInt();
+                    System.out.println("Введите имя");
+                    String kidfname = inp.next();
+                    System.out.println("Введите фамилию");
+                    String kidlname = inp.next();
+                    String sql = String.format("UPDATE %s\n" +
+                            "SET trainerid = '%d', firstname = '%s', lastname = '%s' WHERE id = %d;", table, trainerid, kidfname, kidlname, id);
+                    statement.executeUpdate(sql);
+                }
+                if (table.equals("sport")) {
+                    System.out.println("Введите id вида спорта");
+                    int id = inp.nextInt();
+                    System.out.println("Введите id тренера");
+                    int trainerid = inp.nextInt();
+                    System.out.println("Введите название спората");
+                    String sportname = inp.next();
+                    String sql = String.format("UPDATE %s\n" +
+                            "SET empid = '%d', sportname = '%s' WHERE id = %d;", table, trainerid, sportname, id);
+                    statement.executeUpdate(sql);
+                }
+
+
+                // 4.4
+                System.out.println("Отбор и сортировка по некотормоу критерию");
+                prsment = conn.prepareStatement("SELECT * FROM employees \n" +
+                        "WHERE age > 30 \n" +
+                        "ORDER BY age DESC");
+                res = prsment.executeQuery();
+                while (res.next()) {
+                    int id = res.getInt(1);
+                    int clubid = res.getInt(2);
+                    String fname = res.getString(3);
+                    String lname = res.getString(4);
+                    int age = res.getInt(5);
+                    String pos = res.getString(6);
+                    System.out.println(id + " " + clubid + " " + fname + " " + lname + " " + age + " " + pos);
+                }
+
+                System.out.println();
+                // 4.5
+                System.out.println("Введите название таблицы из которой хотите удалить запись ");
+                String n = inp.next();
+                if (n.equals("employee")) {
+                    System.out.println("Введите id работника");
+                    int key = inp.nextInt();
+                    String sql = String.format("DELETE FROM %s \n" +
+                            "WHERE emplyeeid = '%d';", n, key);
+                    statement.executeUpdate(sql);
+
+                }
+                if (n.equals("kids")) {
+                    System.out.println("Введите id ребенка");
+                    int key = inp.nextInt();
+
+                    String sql = String.format("DELETE FROM %s \n" +
+                            "WHERE kidid = '%d';", n, key);
+                    statement.executeUpdate(sql);
+                }
+                if (n.equals("sport")) {
+                    System.out.println("Введите id спорта");
+                    int key = inp.nextInt();
+                    String sql = String.format("DELETE FROM %s \n" +
+                            "WHERE sportid = '%d';", n, key);
+                    statement.executeUpdate(sql);
+                }
+
+                // 4.6
+                String sql = String.format("CREATE TABLE parent (parentid SERIAL NOT NULL PRIMARY KEY,\n" +
+                        "\t\t\t\t\tfromkidid integer,\n" +
+                        "\t\t\t\t\tfirstname CHARACTER VARYING(30),\n" +
+                        "\t\t\t\t\tlastname CHARACTER VARYING(30),\n" +
+                        "\t\t\t\t\tFOREIGN KEY (fromkidid) REFERENCES kids (kidid));");
+                statement.executeUpdate(sql);
+
+                prsment = conn.prepareStatement("insert into \"parent\" (fromkidid, firstname, lastname) VALUES (?, ?, ?);");
+                prsment.setInt(1, 1);
+                prsment.setString(2, "Слава");
+                prsment.setString(3, "Иванов");
+                prsment.executeUpdate();
+                prsment.setInt(1, 2);
+                prsment.setString(2, "Дарина");
+                prsment.setString(3, "Кулякова");
+                prsment.executeUpdate();
+                prsment.setInt(1, 3);
+                prsment.setString(2, "Марина");
+                prsment.setString(3, "Раулева");
+                prsment.executeUpdate();
+                
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+}
